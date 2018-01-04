@@ -59,6 +59,37 @@
   - 默认配置中有16个数据库
 
 
+##### 第7章 Redis的噩梦：阻塞
+* 阻塞原因及解决
+  - 内因：
+    - 不合理使用API或数据结构
+      - 查看慢查询日志
+      - 修改算法复杂度
+      - 拆分大对象（redis-cli --bigkeys）
+    - CPU饱和
+      - 使用top命令查看，统计命令redis-cli --stat
+    - 持久化阻塞
+      - 引志阻塞操作：fork阻塞、AOF阻塞、HugePage写操作阻塞
+  - 外因：
+    - CPU竞争：不和其它CPU密集型服务部署在一起
+    - 内存交换
+      - redic-cli info server | grep process_id
+      - cat/proc/{process_id}/smaps | grep Swap
+      - 保证内存并降低系统使用swap优先级
+    - 网络问题
+      - 连接拒绝：闪断？拒绝？溢出？
+      - 连接数：redis-cli info Stats | grep rejected_connections
+      - ulimit -n 进程使用资源限制
+      - backlog队列溢出： netstat -s | grep overflowed
+      - 网络延迟： redis-clic --latency， --latency-dist
+
+      
+* 发现阻塞
+  - 借助日志及报警 
+  - 监控指标：命令耗时、慢查询、持久化阻塞、连接拒绝、CPU/内存/网络/磁盘过载
+* 
+
+
 ##### 第11章 缓存设计
 * 缓存成本
   - 数据不一致性
