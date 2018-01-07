@@ -19,6 +19,11 @@
 
 ## 内容
 
+#### 第1章 初识Redis
+* 特性：速度快、基于键值对的数据结构服务器、丰富的功能、简单稳定、客户端语言多、持久化、主从复制、高可用和分布式
+* 使用场景：缓存、排行榜、计数器、社交网络、消息队列
+* 不适用场景：超过内存的大数据量、冷数据 
+
 #### 第2章 API的理解和使用
 * Redis数据结构：string, hash, list, set, zset
 * 每种数据结构都有底层的内部编码实现，而且是多种实现
@@ -57,6 +62,28 @@
   - select dbIndex
   - 默认配置中有16个数据库
 
+#### 第3章 小功能大用处
+* 附加功能：慢查询分析、Redis Shell、Pipline、事务与Lua脚本、Bitmaps、HyperLogLog、发布订阅、GEO
+* 慢查询分析：
+  - config set sloglog-log-slower-than 20000
+  - config set slowlog-max-len 1000
+  - config rewrite // 将配置持久化到本地配置文件
+  - slowlog get [n] // 查持慢查询日志
+  - slowlog len
+* Redis Shell
+  - redis-cli -r 100 -i 1 info | grep used_memory_human
+  - redis-cli --slave // 模拟从节点获取Redis更新操作
+  - redis-server --test-memory 1024  // 检测系统能否提供1G内存
+  - redis-benchmark -c 10 -n 200 -r 1000
+* 事务与Lua
+  - multi, [order...], exec // 事务开始与结束
+  - Redis不支持回滚功能
+* 发布订阅
+  - publish channel message
+  - subscribe channel 
+  - 简单，相比专业的消息队列系统，无法实现消息堆积和回溯
+  
+
 #### 第5章 持久化
 * RDB和AOF两种持久化机制
   - RDB数据快照，有手动和自动触发两种
@@ -75,6 +102,9 @@
   - AOF追加阻塞：
   - 多实例部署：
 
+#### 第6章 复制
+*  
+
 #### 第7章 Redis的噩梦：阻塞
 * 阻塞原因及解决
   - 内因：
@@ -85,7 +115,7 @@
     - CPU饱和
       - 使用top命令查看，统计命令redis-cli --stat
     - 持久化阻塞
-      - 引志阻塞操作：fork阻塞、AOF阻塞、HugePage写操作阻塞
+      - 引起阻塞操作：fork阻塞、AOF阻塞、HugePage写操作阻塞
   - 外因：
     - CPU竞争：不和其它CPU密集型服务部署在一起
     - 内存交换
