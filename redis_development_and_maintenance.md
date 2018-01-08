@@ -83,6 +83,29 @@
   - subscribe channel 
   - 简单，相比专业的消息队列系统，无法实现消息堆积和回溯
   
+#### 第6章 复制
+* 复制的使用方式
+  - 建立复制：master 1 <-> n slave
+    - slaveof {masterHost} {masterPort}
+    - slaveof no one
+    - 切主后从节点会清空之前的数据
+    - slave-read-only=yes
+    - repl-disable-tcp-nodelay控制TCP_NODELAY，开启后合并小TCP包，但会有延迟
+  - info replication // 查看复制状态
+* 拓扑
+  - 结构：单层或多层复制结构
+    - 一主一从（在从节点开启AOF，主节点避免自动重启）、星状、树状
+    - 星状：
+* 原理
+  - 保存主节点信息、主从建立socket连接、发送ping命令、权限验证、同步数据集、命令持续复制
+  - 数据同步：全量复制、部分复制
+  - 复制偏移量：master_repl_offset
+  - 主节点运行ID： info server | grep run_id，重启后会变化，从节点会全量复制
+    - debug reload 不改变run_id且重启，但会阻塞，线上慎重！
+  - 从节点： psync {runid} {offset}
+  - 心跳
+    - 主节点10秒对从节点发送Ping：repl-ping-slave-period
+    - 从节点1秒发送replconf ack {offset}，上报偏移量
 
 #### 第5章 持久化
 * RDB和AOF两种持久化机制
