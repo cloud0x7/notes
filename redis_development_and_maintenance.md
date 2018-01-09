@@ -105,7 +105,9 @@
   - 从节点： psync {runid} {offset}
   - 心跳
     - 主节点10秒对从节点发送Ping：repl-ping-slave-period
-    - 从节点1秒发送replconf ack {offset}，上报偏移量
+    - 从节点1秒发送replconf ack {offset}，上报
+
+
 
 #### 第5章 持久化
 * RDB和AOF两种持久化机制
@@ -183,6 +185,9 @@
   - 缩减键值长度：高压缩比序列化工具
   - 共享对象池:复用内部维护的[0-9999]整数对象池（object refcount [key]）
 
+#### 第10章 集群
+* Redis Cluster
+* 搭建集群、节点通信、集群伸缩、请求路由、故障转移、集群运维
 
 #### 第11章 缓存设计
 * 缓存成本
@@ -212,3 +217,11 @@
   - 解决
     - 互斥锁
     - 永不过期（逻辑控制更新）
+    
+#### 第14章 Redis配置统计字典
+* info系统状态说明
+  - info、 info all、 info [section]
+  - section: server, clients, memory, persistence, stats, replication, cpu, commandstats, cluster, keyspace
+* Stnadalone配置
+* Sentinel配置
+* Cluster配置
