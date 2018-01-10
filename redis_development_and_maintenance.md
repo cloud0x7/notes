@@ -218,6 +218,33 @@
     - 互斥锁
     - 永不过期（逻辑控制更新）
     
+#### 第12章 开发运维的“陷阱”
+* Linux配置优化要点：/etc/sysctl.conf
+  - vm.overcommit_memory
+  - swappiness
+  - THP
+  - OOM killer （/proc{progress_id}/oom_score）
+  - NTP（Network Time Protocol）
+  - ulimit
+  - TCP backlog
+* 恢复数据
+  - 防止AOF重写
+    - config set auto-aof-rewrite-percentage 1000
+    - config set auto-aof-rewrite-min-size 10000000000
+  - 去掉主从AOF文件中的flush相关内容
+  - 重启Redis主节点，恢复数据  
+* 安全的Redis设计
+  - 设置密码
+  - 使用rename-command修改危险命令（flushall等）
+  - 防火墙：bind {IP}
+  - 定期备份
+  - 修改端口
+  - 非root启动
+* 处理bigkey的方案
+  - 危害：内存空间不平衡、超时阻塞、网络拥塞
+  - 如何删除而不阻塞服务器？
+* 寻找热点key 
+
 #### 第14章 Redis配置统计字典
 * info系统状态说明
   - info、 info all、 info [section]
