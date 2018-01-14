@@ -83,6 +83,24 @@
   - subscribe channel 
   - 简单，相比专业的消息队列系统，无法实现消息堆积和回溯
   
+#### 第5章 持久化
+* RDB和AOF两种持久化机制
+  - RDB数据快照，有手动和自动触发两种
+    - save阻塞，不建议用于线上；bgsave fork子进程
+    - 特点：适用于备份、加载快于AOF，成本高，二进制格式保存，不适合实时持久化
+  - AOF（append only file）独立日志
+    - 采用文本格式：兼容性好、可读可处理
+    - 命令追加到aof_buf中
+    - 重写机制：把Redis进程内的数据转化为写命令同步 到新AOF文件的过程
+      - 压缩文件体积（除去了超时数据、无效命令、多条写命令合并）
+      - 手动、自动触发 
+* 启动时优先加载AOF
+* 影响性能的高发地
+  - fork操作：每GB消耗20毫秒
+  - 子进程开销：CPU、内存、硬盘
+  - AOF追加阻塞：
+  - 多实例部署：
+
 #### 第6章 复制
 * 复制的使用方式
   - 建立复制：master 1 <-> n slave
@@ -107,29 +125,6 @@
     - 主节点10秒对从节点发送Ping：repl-ping-slave-period
     - 从节点1秒发送replconf ack {offset}，上报
 
-
-
-#### 第5章 持久化
-* RDB和AOF两种持久化机制
-  - RDB数据快照，有手动和自动触发两种
-    - save阻塞，不建议用于线上；bgsave fork子进程
-    - 特点：适用于备份、加载快于AOF，成本高，二进制格式保存，不适合实时持久化
-  - AOF（append only file）独立日志
-    - 采用文本格式：兼容性好、可读可处理
-    - 命令追加到aof_buf中
-    - 重写机制：把Redis进程内的数据转化为写命令同步 到新AOF文件的过程
-      - 压缩文件体积（除去了超时数据、无效命令、多条写命令合并）
-      - 手动、自动触发 
-* 启动时优先加载AOF
-* 影响性能的高发地
-  - fork操作：每GB消耗20毫秒
-  - 子进程开销：CPU、内存、硬盘
-  - AOF追加阻塞：
-  - 多实例部署：
-
-#### 第6章 复制
-*  
-
 #### 第7章 Redis的噩梦：阻塞
 * 阻塞原因及解决
   - 内因：
@@ -152,9 +147,7 @@
       - 连接数：redis-cli info Stats | grep rejected_connections
       - ulimit -n 进程使用资源限制
       - backlog队列溢出： netstat -s | grep overflowed
-      - 网络延迟： redis-clic --latency， --latency-dist
-
-      
+      - 网络延迟： redis-clic --latency， --latency-dist      
 * 发现阻塞
   - 借助日志及报警 
   - 监控指标：命令耗时、慢查询、持久化阻塞、连接拒绝、CPU/内存/网络/磁盘过载
