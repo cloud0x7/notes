@@ -19,3 +19,15 @@ Cray Cornell，已经教授程序设计专业课程20多年，并撰写了多部
 ## 目录
 
 ## 内容
+
+#### 第3章 Java基本的程序设计结构
+* 数据类型
+  - 8种基本类型：4种整型、2种浮点类型、1种字符型和1种boolean类型
+    - byte、short、int、long / float、double / char / boolean
+  - 整型值和布尔值宰不能相互转换
+  - final声明常量
+  - 枚举类型： enum Size {SMALL, MEDIUM, LARGE}
+  - 字符串：不能修改字符串中的字符，但可以修改变量。优点：可共享公共的字符串存储池；
+    - '+'或substring操作产生的结果并不是共享的，不能使用'=='检测相等，所以__不要使用==检测相等__。使用s.equals(t)
+    - 使用StringBuilder进行大量的字符串拼接
+  -  
