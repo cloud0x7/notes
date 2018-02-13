@@ -6,3 +6,4 @@
 3. [《Java核心技术·卷1：基础知识》](core_java_1.md)
 4. [《大型网站技术架构》](large_site_technology_architecture.md)
 5. [《大数据系统构建》](big_data.md)
+6. [《大道至简》](make_it_easy.md)
