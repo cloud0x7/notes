@@ -7,3 +7,4 @@
 4. [《大型网站技术架构》](large_site_technology_architecture.md)
 5. [《大数据系统构建》](big_data.md)
 6. [《大道至简》](make_it_easy.md)
+6. [《两周自制脚本语言》](two_weeks_homemade_scripting_language.md)
